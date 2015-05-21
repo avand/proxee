@@ -1,8 +1,10 @@
 source 'https://rubygems.org'
 
+ruby '2.0.0'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
-gem 'sqlite3', '1.3.10'
+gem 'pg', '0.17.1'
 gem 'httparty', '0.13.5'
 
 group :development, :test do
