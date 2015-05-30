@@ -4,8 +4,9 @@ class RequestsController < ApplicationController
     remote_response = HTTParty.get(params[:url])
 
     response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Content-Type'] = response.content_type
 
-    render text: remote_response.body, content_type: response.content_type
+    render text: remote_response.body
   rescue => error
     render text: error.message
   end
