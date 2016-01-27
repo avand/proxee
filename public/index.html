@@ -18,20 +18,31 @@
 
     <p>
       To proxy an HTTP GET request, simply perform a GET to
-      <code>proxy.avandamiri.com/get</code> with <code>url</code> query string
+      <code>proxy.avandamiri.com/get</code> with the <code>url</code> query string
       parameter set to the URL you're trying to access. Here's an example:
     </p>
 
-    <pre>
-      <code>
-        http://proxy.avandamiri.com/get?url=http%3A%2F%2Fgoogle.com
-      </code>
-    </pre>
+    <pre><code>
+      http://proxy.avandamiri.com/get?url=http%3A%2F%2Fgoogle.com
+    </code></pre>
 
     <p>
-      <a href="http://proxy.avandamiri.com/get?url=http%3A%2F%2Fgoogle.com">
-        Try it!
-      </a>
+      What the hell is <code>%3a%sf%sf</code>?
+      When you pass a parameter to the server via query parameters (the
+      stuff that comes after the <code>?</code>) you have to "escape" it.
+      That just means that certain characters need to be swapped out. For
+      example, <code>%3a</code> is simply <code>:</code>.
     </p>
+
+    <p>
+      You don't have to do this manually though. Just use the
+      <code>escape()</code> method that's built into your browser. So,
+      for example:
+    </p>
+
+    <pre><code>
+      var sourceURL = "http://my.api.com/path?query=kitties";
+      var proxyURL = "http://proxy.avandamiri.com/get?url=" + escape(sourceURL);
+    </code></pre>
   </body>
 </html>
