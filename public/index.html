@@ -3,30 +3,54 @@
   <head>
     <meta charset="utf-8">
     <title>Proxee</title>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">
     <style media="screen">
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        line-height: 1.8em;
         background: linear-gradient(180deg, rgb(196, 232, 235), white) no-repeat;
         max-width: 600px;
         margin: 50px auto;
       }
-      .button {
+      a,
+      a:visited {
+        color: rgb(38, 119, 126);
+        font-weight: 500;
+      }
+      a:hover {
+        text-decoration: none;
+      }
+      a.button {
         color: white;
-        background: rgb(130, 175, 120);
+        background: rgb(38, 119, 126);
         border-radius: 3px;
-        padding: .8em 1.2em;
+        padding: .5em 1.2em;
         text-decoration: none;
         font-weight: bold;
         display: inline-block;
       }
+      h2 {
+        border-top: 2px solid rgba(38, 119, 126, 0.2);
+        padding-top: 1em;
+        margin-top: 1em;
+      }
+      h3, h4 {
+        margin: 0;
+      }
       pre {
-        padding: .5em 1em;
-        border-radius: 5px;
-        margin: 1em 0;
+        padding: .6em 1.2em;
+        margin: 2em 0;
         white-space: pre-wrap;
       }
+      code {
+        padding: .5em;
+      }
       pre, code {
-        background: rgba(0, 0, 0, 0.1);
+        font-size: 12px;
+        line-height: 1.4em;
+        background: rgba(4, 52, 56, 0.1);
+        font-family: "Ubuntu Mono", monospace;
+        border-radius: 5px;
       }
       pre code {
         background: none;
@@ -37,21 +61,21 @@
     <h1>Welcome to Proxee</h1>
 
     <p>
-      Proxee is an HTTP proxy built by <a href="http://avandamiri.com">
-      Avand Amiri</a>. The original inspiration for it was to allow his
-      front-end web development students to work around the single-origin
-      policy. But it's designed to proxy any HTTP request.
+      Proxee is a HTTP and API proxy built by <a href="http://avandamiri.com">Avand Amiri</a>. It was created for his front-end web development students to work around the single-origin policy but will proxy pretty much any HTTP request.
     </p>
 
     <h2>HTTP GET</h2>
 
     <p>
-      To proxy an HTTP GET request, simply perform a GET to
-      <code>http://proxy.avandamiri.com/get</code> with the <code>url</code> query string
-      parameter set to the URL you're trying to access. Here's an example:
+      To proxy an HTTP GET request, simply perform a HTTP GET to
+      <code>http://proxy.avandamiri.com/get</code> with the <code>url</code> query string parameter set to the URL you're trying to access. Here's an example:
     </p>
 
     <pre><code>http://proxy.avandamiri.com/get?url=http%3A%2F%2Fgoogle.com</code></pre>
+
+    <p>
+      Note that the URL is <a href="escape">escaped</a>.
+    </p>
 
     <p>
       <a href="http://proxy.avandamiri.com/get?url=http%3A%2F%2Fgoogle.com" target="_blank" class="button">Try It!</a>
@@ -60,41 +84,57 @@
     <h2>Yelp API</h2>
 
     <p>
-      Accessing the <a href="https://www.yelp.com/developers/documentation/v2/overview" target="_blank">Yelp API</a> is at best very difficult and maybe even impossible from your browser. With Proxee you can make calls to Yelp’s API without ease. You don’t even need to register for API keys!
+      Accessing the <a href="https://www.yelp.com/developers/documentation/v2/overview" target="_blank">Yelp API</a> is at best very difficult (maybe even impossible) from your browser. With Proxee you can make calls to Yelp’s API with ease. You don’t even need to register for API keys!
     </p>
 
     <p>
-      Under the hood, Proxee uses the <a href="https://github.com/Yelp/yelp-ruby" target="blank">Yelp Ruby gem</a> to perform requests with Avand’s API keys.
+      Under the hood, Proxee uses the <a href="https://github.com/Yelp/yelp-ruby" target="blank">Yelp Ruby gem</a> to perform requests with a set of registered API keys. Of course, access is still subject to Yelp’s jurisdiction. If something looks amiss, please email <a href="mailto:avand@avandamiri.com">avand@avandmiri.com</a>.
     </p>
 
-    <h3>Search</h3>
+    <h3 id="yelp-search">Search</h3>
 
     <p>
-      All searches need a location, which you can specify in one of three ways. Beyond the required location-related parameters, you can specify any parameters you’d like per the <a href="http://www.yelp.com/developers/documentation/v2/search_api" target="_blank">Yelp API Documentation</a>:
+      All searches require location, which you can specify in one of three ways:
     </p>
 
     <ol>
-      <li>Location name</li>
-      <li>Latitude &amp; longitude</li>
-      <li>Bounding box</li>
+      <li><a href="#yelp-search-location">Location Name</a></li>
+      <li><a href="#yelp-search-lat-lng">Latitude &amp; Longitude</a></li>
+      <li><a href="#yelp-search-bounding">Bounding Box</a></li>
     </ol>
 
-    <h4>Searching by Location Name</h4>
+    <p>
+      Beyond the required location-related parameters, you can also supply any parameters per the <a href="http://www.yelp.com/developers/documentation/v2/search_api" target="_blank">Yelp API Documentation</a>.
+    </p>
+
+    <h4 id="yelp-search-location">Search by Location Name</h4>
+
+    <p>
+      Easy. Just supply a <code>location</code> parameter set to anything that you might type into Yelp. They’ll do the rest. (Don’t forget to <a href="#escape">escape</a> the parameter values.)
+    </p>
 
     <pre><code>http://proxy.avandamiri.com/yelp/search?location=San%20Francisco</code></pre>
 
-    <h4>Searching by Latitude &amp; Longitude</h4>
+    <h4 id="yelp-search-lat-lng">Searching by Latitude &amp; Longitude</h4>
+
+    <p>
+      If you already have the coordinates of your user—perhaps from the browser’s <a href="https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation" target="_blank">geolocation API</a>—then you can pass it along to Yelp and they’ll centralize your search to that coordinate.
+    </p>
 
     <pre><code>http://proxy.avandamiri.com/yelp/search?latitude=37.7577&longitude=-122.4376</code></pre>
 
-    <h4>Searching by Bounding Box</h4>
+    <h4 id="yelp-search-bounding">Searching by Bounding Box</h4>
+
+    <p>
+      It’s a bit more cumbersome, but it’s also possible to search for results within a bounding box, as designated by southwest and northeast coordinates.
+    </p>
 
     <pre><code>http://proxy.avandamiri.com/yelp/search?sw_latitude=37.7577&sw_longitude&-122.4376&ne_latitude=37.785381&ne_longitude=-122.391681</code></pre>
 
-    <h3>Putting it All Together</h3>
+    <h4>Complete Example</h3>
 
     <p>
-      Search for "pizza" in Chicago, based on latitude/longitude:
+      Here’s an example search for “pizza” in Chicago, using latitude &amp; longitude:
     </p>
 
     <pre><code>http://proxy.avandamiri.com/yelp/search?latitude=41.8781&longitude=-87.6298&term=pizza</code></pre>
@@ -103,18 +143,14 @@
       <a href="http://proxy.avandamiri.com/yelp/search?latitude=41.8781&longitude=-87.6298&term=pizza" target="_blank" class="button">Try It!</a>
     </p>
 
-    <h2>Escaping Query Strings</h2>
+    <h2 id="escape">Escaping Query Strings</h2>
 
     <p>
-      What the hell is <code>%3a%sf%sf</code>?
-      When you pass a parameter to the server via query parameters (the
-      stuff that comes after the <code>?</code>) you have to "escape" it.
-      That just means that certain characters need to be swapped out. For
-      example, <code>%3a</code> is simply <code>:</code>.
+      What the hell is <code>%3a%sf%sf</code>? When you pass a parameter to the server via query parameters (the stuff that comes after the <code>?</code>) you have to “escape” its value. That just means that certain characters need to be swapped out. For example, <code>%3a</code> translates to <code>:</code>.
     </p>
 
     <p>
-      You don't have to do this manually though. Just use the
+      You don’t have to do this manually though. Just use the
       <code>escape()</code> method that's built into your browser. So,
       for example:
     </p>
