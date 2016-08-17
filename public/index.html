@@ -6,7 +6,7 @@
     <style media="screen">
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        background: linear-gradient(180deg, rgb(203, 235, 196), white) no-repeat;
+        background: linear-gradient(180deg, rgb(196, 232, 235), white) no-repeat;
         max-width: 600px;
         margin: 50px auto;
       }
@@ -17,6 +17,16 @@
         padding: .8em 1.2em;
         text-decoration: none;
         font-weight: bold;
+      }
+      pre {
+        padding: .5em 1em;
+        border-radius: 5px;
+      }
+      pre, code {
+        background: rgba(0, 0, 0, 0.1);
+      }
+      pre code {
+        background: none;
       }
     </style>
   </head>
@@ -34,20 +44,27 @@
 
     <p>
       To proxy an HTTP GET request, simply perform a GET to
-      <code>proxy.avandamiri.com/get</code> with <code>url</code> query string
+      <code>http://proxy.avandamiri.com/get</code> with the <code>url</code> query string
       parameter set to the URL you're trying to access. Here's an example:
     </p>
 
-    <pre>
-      <code>
-        http://proxy.avandamiri.com/get?url=http%3A%2F%2Fgoogle.com
-      </code>
-    </pre>
+    <pre><code>http://proxy.avandamiri.com/get?url=http%3A%2F%2Fgoogle.com</code></pre>
 
     <p>
-      <a href="http://proxy.avandamiri.com/get?url=http%3A%2F%2Fgoogle.com" class="button">
-        Try it!
-      </a>
+      What the hell is <code>%3a%sf%sf</code>?
+      When you pass a parameter to the server via query parameters (the
+      stuff that comes after the <code>?</code>) you have to "escape" it.
+      That just means that certain characters need to be swapped out. For
+      example, <code>%3a</code> is simply <code>:</code>.
     </p>
+
+    <p>
+      You don't have to do this manually though. Just use the
+      <code>escape()</code> method that's built into your browser. So,
+      for example:
+    </p>
+
+    <pre><code>var sourceURL = "http://my.api.com/path?query=kitties";
+var proxyURL = "http://proxy.avandamiri.com/get?url=" + escape(sourceURL);</code></pre>
   </body>
 </html>
