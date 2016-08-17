@@ -17,10 +17,13 @@
         padding: .8em 1.2em;
         text-decoration: none;
         font-weight: bold;
+        display: inline-block;
       }
       pre {
         padding: .5em 1em;
         border-radius: 5px;
+        margin: 1em 0;
+        white-space: pre-wrap;
       }
       pre, code {
         background: rgba(0, 0, 0, 0.1);
@@ -40,7 +43,7 @@
       policy. But it's designed to proxy any HTTP request.
     </p>
 
-    <h2>Usage</h2>
+    <h2>HTTP GET</h2>
 
     <p>
       To proxy an HTTP GET request, simply perform a GET to
@@ -49,6 +52,58 @@
     </p>
 
     <pre><code>http://proxy.avandamiri.com/get?url=http%3A%2F%2Fgoogle.com</code></pre>
+
+    <p>
+      <a href="http://proxy.avandamiri.com/get?url=http%3A%2F%2Fgoogle.com" target="_blank" class="button">Try It!</a>
+    </p>
+
+    <h2>Yelp API</h2>
+
+    <p>
+      Accessing the <a href="https://www.yelp.com/developers/documentation/v2/overview" target="_blank">Yelp API</a> is at best very difficult and maybe even impossible from your browser. With Proxee you can make calls to Yelp’s API without ease. You don’t even need to register for API keys!
+    </p>
+
+    <p>
+      Under the hood, Proxee uses the <a href="https://github.com/Yelp/yelp-ruby" target="blank">Yelp Ruby gem</a> to perform requests with Avand’s API keys.
+    </p>
+
+    <h3>Search</h3>
+
+    <p>
+      All searches need a location, which you can specify in one of three ways. Beyond the required location-related parameters, you can specify any parameters you’d like per the <a href="http://www.yelp.com/developers/documentation/v2/search_api" target="_blank">Yelp API Documentation</a>:
+    </p>
+
+    <ol>
+      <li>Location name</li>
+      <li>Latitude &amp; longitude</li>
+      <li>Bounding box</li>
+    </ol>
+
+    <h4>Searching by Location Name</h4>
+
+    <pre><code>http://proxy.avandamiri.com/yelp/search?location=San%20Francisco</code></pre>
+
+    <h4>Searching by Latitude &amp; Longitude</h4>
+
+    <pre><code>http://proxy.avandamiri.com/yelp/search?latitude=37.7577&longitude=-122.4376</code></pre>
+
+    <h4>Searching by Bounding Box</h4>
+
+    <pre><code>http://proxy.avandamiri.com/yelp/search?sw_latitude=37.7577&sw_longitude&-122.4376&ne_latitude=37.785381&ne_longitude=-122.391681</code></pre>
+
+    <h3>Putting it All Together</h3>
+
+    <p>
+      Search for "pizza" in Chicago, based on latitude/longitude:
+    </p>
+
+    <pre><code>http://proxy.avandamiri.com/yelp/search?latitude=41.8781&longitude=-87.6298&term=pizza</code></pre>
+
+    <p>
+      <a href="http://proxy.avandamiri.com/yelp/search?latitude=41.8781&longitude=-87.6298&term=pizza" target="_blank" class="button">Try It!</a>
+    </p>
+
+    <h2>Escaping Query Strings</h2>
 
     <p>
       What the hell is <code>%3a%sf%sf</code>?

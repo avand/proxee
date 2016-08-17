@@ -6,6 +6,7 @@ ruby '2.0.0'
 gem 'rails', '4.2.1'
 gem 'pg', '0.17.1'
 gem 'httparty', '0.13.5'
+gem 'yelp'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
